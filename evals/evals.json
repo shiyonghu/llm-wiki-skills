@@ -1,0 +1,53 @@
+{
+  "name": "llm-wiki-skills",
+  "version": "0.1.0",
+  "evals": [
+    {
+      "skill": "init-wiki",
+      "prompt": "init-wiki /Users/shiyonghu/workspace/Obsidian Vault",
+      "expected_output": "Initializes the supplied Obsidian vault as an LLM wiki while preserving existing root-level notes and folders.",
+      "checks": [
+        "Resolves the supplied path and verifies it is a directory.",
+        "Creates raw, raw/todo, raw/assets, index.md, log.md, and AGENTS.md when missing.",
+        "Preserves existing root-level knowledge folders and standalone Markdown notes.",
+        "Does not edit .obsidian files."
+      ]
+    },
+    {
+      "skill": "ingest-wiki",
+      "prompt": "ingest-wiki raw/todo/example-podcast-transcript.md",
+      "expected_output": "Produces a briefing, waits for approval, creates concise linked pages, waits for final approval, then updates index/log and archives the source.",
+      "checks": [
+        "Verifies the source is inside raw/todo.",
+        "Reads AGENTS.md, index.md, and relevant existing notes before proposing edits.",
+        "Briefing includes takeaways, candidate pages, existing pages, contradictions, quote restoration, and Chinese academic concept checks.",
+        "Waits for approval before editing and again before finalization.",
+        "Moves the source to raw only after final approval."
+      ]
+    },
+    {
+      "skill": "query-wiki",
+      "prompt": "query-wiki What does this vault say about growth mindset and mistakes?",
+      "expected_output": "Answers from index.md and wiki pages first, consulting raw sources only when needed for verification or detail.",
+      "checks": [
+        "Reads AGENTS.md when present and reads index.md first.",
+        "Searches root-level topic folders and standalone notes before raw sources.",
+        "Cites relevant wiki pages and raw sources when useful.",
+        "Does not modify files for ordinary read-only questions.",
+        "Logs only durable query-driven wiki edits."
+      ]
+    },
+    {
+      "skill": "lint-wiki",
+      "prompt": "lint-wiki",
+      "expected_output": "Runs a wiki health pass, presents findings by severity, applies approved clear fixes, and logs the maintenance pass.",
+      "checks": [
+        "Reads AGENTS.md when present and reads index.md.",
+        "Excludes .obsidian, docs, raw, hidden files, and system files.",
+        "Checks contradictions, stale claims, missing cross-references, data gaps, page split/merge/rename/move candidates, and outdated index entries.",
+        "Asks for approval before applying fixes unless explicitly told to apply clear fixes.",
+        "Does not modify raw source contents."
+      ]
+    }
+  ]
+}
