@@ -1,0 +1,18 @@
+{
+  "name": "llm-wiki-skills",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Reusable skills for maintaining an Obsidian vault as an LLM wiki.",
+  "license": "MIT",
+  "type": "module",
+  "scripts": {
+    "skills:list": "npx --yes skills add . --list --full-depth",
+    "skills:use:init": "npx --yes skills use . --skill init-wiki --full-depth",
+    "skills:use:ingest": "npx --yes skills use . --skill ingest-wiki --full-depth",
+    "skills:use:query": "npx --yes skills use . --skill query-wiki --full-depth",
+    "skills:use:lint": "npx --yes skills use . --skill lint-wiki --full-depth"
+  },
+  "engines": {
+    "node": ">=18"
+  }
+}
