@@ -64,18 +64,30 @@ The command-style prefix is not required. Each skill description is written to t
 This repository uses a local pinned `skills` CLI from `package.json` and `package-lock.json` for repeatable development checks. Run the npm scripts instead of relying on a globally installed CLI:
 
 ```bash
+npm run skills:install-local
 npm run skills:list
 npm run skills:use:init
 npm run skills:use:ingest
 npm run skills:use:query
 npm run skills:use:lint
+npm run test:install-local
 ```
 
+- `npm run skills:install-local`: overwrites the local Codex installs of `init-wiki`, `ingest-wiki`, `query-wiki`, and `lint-wiki` from this checkout. Use it after changing any `SKILL.md` file or any file under `skills/shared`.
 - `npm run skills:list`: lists all skills discovered in this repository. It should include `init-wiki`, `ingest-wiki`, `query-wiki`, and `lint-wiki`.
 - `npm run skills:use:init`: previews the `init-wiki` skill prompt.
 - `npm run skills:use:ingest`: previews the `ingest-wiki` skill prompt.
 - `npm run skills:use:query`: previews the `query-wiki` skill prompt.
 - `npm run skills:use:lint`: previews the `lint-wiki` skill prompt.
+- `npm run test:install-local`: verifies the local installer against a temporary Codex skills directory and confirms stale installed content is overwritten.
+
+### Codex refresh helper
+
+For local Codex development, this repository also supports a personal helper skill named `refresh-wiki-skills`. After that helper is installed in Codex, ask Codex to "refresh wiki skills" and it will run `npm run skills:install-local` from this checkout.
+
+The refresh command treats this repository as the source of truth. It overwrites only the four wiki skills under `${CODEX_HOME:-~/.codex}/skills`, and copies `skills/shared/wiki-conventions.md` and `skills/shared/obsidian-markdown.md` into each installed skill so bundled reference paths resolve during testing.
+
+Restart Codex after refreshing local installs, especially when changing frontmatter descriptions or shared reference files.
 
 Public user-facing install examples can still use `npx skills add ...`; local repository development should use the npm scripts above.
 
