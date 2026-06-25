@@ -17,7 +17,7 @@ ingest-wiki raw/todo/example-podcast-transcript.md
 
 Also use it for natural language requests such as "process this source from raw/todo into the wiki", "ingest the new transcript", "turn this raw article into atomic Obsidian notes", or "archive this source after adding the useful ideas to my wiki."
 
-This skill handles one source at a time. If the user supplies multiple sources, ask which one to process first and leave the others in `/raw/todo`. Do not use this skill for ordinary wiki questions, initialization, or broad lint passes unless the user explicitly asks to start an ingest workflow.
+This skill handles one source at a time. If the user supplies multiple sources, ask which one to process first and leave the others in `/raw/todo`. If the user does not name a source and `/raw/todo` contains exactly one note, ingest that note instead of asking the user to identify it. Do not use this skill for ordinary wiki questions, initialization, or broad lint passes unless the user explicitly asks to start an ingest workflow.
 
 ## Required Reading
 
@@ -39,7 +39,7 @@ If `/AGENTS.md` conflicts with this skill or the shared references, pause and as
 1. Resolve and validate the source.
    - Resolve the supplied path to an absolute path.
    - Verify that it exists, is a file, and is inside the vault's `/raw/todo` tree.
-   - If no source path is supplied, ask the user for one source under `/raw/todo`.
+   - If no source path is supplied, inspect `/raw/todo`. If it contains exactly one note, use that note as the source. If it contains zero notes or multiple notes, ask the user for one source under `/raw/todo`.
    - If the path is outside `/raw/todo`, stop and ask for a valid intake source. Do not ingest archived `/raw` files or unrelated wiki pages through this workflow.
    - Read the source without rewriting it.
 
@@ -96,6 +96,7 @@ If `/AGENTS.md` conflicts with this skill or the shared references, pause and as
    - Link to the source using its final archive location under `/raw`, not `/raw/todo`, so links stay stable after finalization.
    - Add outbound links from edited pages to relevant existing pages.
    - Update existing pages only when the source strengthens, refines, or contradicts prior synthesis. Keep updates focused; do not rewrite unrelated material.
+   - When part of the source is already concise and suitable for a wiki page, copy that concise wording directly into the page. Never paraphrase concise source material into more verbose prose just to make it sound synthesized.
    - Preserve page atomicity, aim for under 300 words per page, and keep every created or edited page under 500 words.
    - When a Chinese academic concept is central and useful to clarify, include the English name in prose, usually in the executive summary rather than the title.
    - Restore well-known quotes only when the original wording can be identified reliably; otherwise note the paraphrase without presenting uncertain wording as exact.
