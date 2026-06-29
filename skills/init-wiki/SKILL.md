@@ -95,7 +95,7 @@ When the target vault already contains `/AGENTS.md`, read it before making chang
 
    ## Ownership Rules
 
-   Read files in `/raw/todo` during ingest, but do not rewrite their contents. After a source is moved from `/raw/todo` to `/raw` through approved ingest finalization, treat `/raw` as immutable: do not edit, rename, or delete archived source files.
+   Read files in `/raw/todo` during ingest, but do not rewrite their contents. After a source is moved from `/raw/todo` to `/raw` through approved ingest briefing, treat `/raw` as immutable: do not edit, rename, or delete archived source files.
 
    The vault root is the synthesis layer. Agents may create, rewrite, split, merge, rename, and reorganize wiki content pages and topic folders at the root when the active workflow allows it. Preserve special system folders such as `/raw`, `/docs`, and `.obsidian`.
 
@@ -111,7 +111,7 @@ When the target vault already contains `/AGENTS.md`, read it before making chang
 
    ## Workflow Boundaries
 
-   For ingest work, process one source from `/raw/todo` at a time, prepare a briefing, wait for approval before editing pages, and wait for final approval before moving the source to `/raw`.
+   For ingest work, process one source from `/raw/todo` at a time, prepare a briefing, wait for approval before moving the source to `/raw` and editing pages, then wait for final approval before updating `/index.md` and `/log.md`.
 
    For query work, read `/index.md` first, search wiki pages before raw sources, and modify files only when the user wants durable synthesis captured in the vault.
 

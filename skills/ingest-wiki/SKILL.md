@@ -34,6 +34,10 @@ Then read these vault-local files when present:
 
 If `/AGENTS.md` conflicts with this skill or the shared references, pause and ask the user how to proceed.
 
+## Bundled Helper
+
+Use `scripts/archive-ingest-source.py`, resolved relative to this `SKILL.md`, for the source archive move. It validates that the source is under `/raw/todo`, refuses archive collisions, moves the file to `/raw`, verifies the result, and prints the final archive path.
+
 ## Workflow
 
 1. Resolve and validate the source.
@@ -86,14 +90,21 @@ If `/AGENTS.md` conflicts with this skill or the shared references, pause and as
 
 4. Discuss the briefing and wait for approval.
    - Ask the user to approve, revise, or reject the proposed page plan before editing any wiki pages.
+   - Tell the user that approving the page plan also approves archiving the source from `/raw/todo` to `/raw` before page edits begin.
    - If the user asks for changes to the plan, revise the briefing and wait again.
-   - Do not proceed from briefing to page edits without clear user approval.
+   - Do not proceed from briefing to source archiving or page edits without clear user approval.
 
-5. Draft approved page changes.
+5. Archive the approved source before page edits.
+   - Run `python3 scripts/archive-ingest-source.py <absolute-source-path>` from this skill directory, preserving the filename.
+   - If the helper reports `Archive already exists`, pause and ask the user for a safe archive filename. After approval, rerun the helper with `--archive-name <approved-filename>`.
+   - Use the helper's stdout as the final archived source path.
+   - Do not create or update wiki pages until the helper succeeds and the final archived source path is known.
+
+6. Draft approved page changes.
    - Create or update concise atomic pages in the vault root's topic folders.
    - Start each newly created page with a 1-2 sentence executive summary.
    - Use Obsidian wikilinks for internal references and source sections when useful.
-   - Link to the source using its final archive location under `/raw`, not `/raw/todo`, so links stay stable after finalization.
+   - Link to the source using the helper-reported final archive path under `/raw`, not `/raw/todo`.
    - Add outbound links from edited pages to relevant existing pages.
    - Update existing pages only when the source strengthens, refines, or contradicts prior synthesis. Keep updates focused; do not rewrite unrelated material.
    - When part of the source is already concise and suitable for a wiki page, copy that concise wording directly into the page. Never paraphrase concise source material into more verbose prose just to make it sound synthesized.
@@ -101,19 +112,18 @@ If `/AGENTS.md` conflicts with this skill or the shared references, pause and as
    - When a Chinese academic concept is central and useful to clarify, include the English name in prose, usually in the executive summary rather than the title.
    - Restore well-known quotes only when the original wording can be identified reliably; otherwise note the paraphrase without presenting uncertain wording as exact.
 
-6. Ask for page-change approval before finalization.
+7. Ask for page-change approval before finalization.
    - Summarize created pages, updated pages, source links, and any notable unresolved contradictions or uncertainties.
-   - Ask the user to approve the page changes before updating `/index.md`, appending `/log.md`, or moving the source.
+   - Ask the user to approve the page changes before updating `/index.md` or appending `/log.md`.
    - If the user requests revisions, make the revisions and ask again.
 
-7. Finalize only after approval.
+8. Finalize only after approval.
    - Update `/index.md` when pages were created, moved, renamed, or their folder placement changed.
    - Append `/log.md` using the ingest log format from `skills/shared/wiki-conventions.md`.
-   - Move the source from `/raw/todo` to `/raw`, preserving the filename unless a collision requires asking the user for a safe archive name.
-   - Ensure all source links in created or edited pages point to the final `/raw` archive path.
+   - Ensure all source links in created or edited pages point to the helper-reported `/raw` archive path.
    - Do not edit, rename, or delete any file already archived under `/raw`.
 
-8. Report the completed ingest.
+9. Report the completed ingest.
    - List created pages, updated pages, the archived source path, and the log entry heading.
    - Mention any pages intentionally left unchanged because the source did not strengthen, refine, or contradict them.
 
@@ -128,8 +138,8 @@ Before reporting completion, verify the ingest state:
 
 2. Source links and movement:
    - Confirm no created or edited page links to `/raw/todo` for the ingested source.
-   - Confirm source links point to `/raw/source-file`.
-   - Confirm the source no longer exists under `/raw/todo` and now exists under `/raw`, but only after final approval.
+   - Confirm source links point to the helper-reported `/raw` archive path.
+   - Confirm the helper-reported archive path exists and the original `/raw/todo` source path no longer exists after briefing approval and before page edits.
 
 3. Operating files:
    - Confirm `/index.md` reflects created or relocated pages when applicable.
@@ -137,6 +147,7 @@ Before reporting completion, verify the ingest state:
 
 4. Approval gates:
    - Confirm the user approved the ingest briefing before page edits.
-   - Confirm the user approved the page changes before finalization and source movement.
+   - Confirm the user approved source archiving before the helper ran.
+   - Confirm the user approved the page changes before finalization.
 
 If any verification step fails, fix the issue when safe. If fixing would require changing the approved page plan, moving a source unexpectedly, overwriting an archived file, or changing ambiguous synthesis, pause and ask the user for direction.
