@@ -44,12 +44,13 @@ Ingest processes one source from `/raw/todo` into concise, linked wiki pages whi
 1. Find the source the user wants to ingest in `/raw/todo`.
 2. Decide which topic folder should contain the new page. Use the existing folder structure when possible; create a folder only when the topic clearly needs one.
 3. Read the source and prepare an ingest briefing before editing wiki pages.
-4. Discuss the briefing with the user and wait for approval before creating or updating wiki pages.
-5. Create the new page with the approved executive summary and key takeaways in concise writing. Link to the source.
-6. Add outbound Obsidian links from edited pages to other relevant wiki pages.
-7. Update relevant existing atomic wiki pages when the source strengthens, refines, or contradicts prior synthesis, keeping changes focused and concise.
-8. Ask the user to approve the page changes before finalization.
-9. After final approval, update `/index.md`, append `/log.md`, move the source from `/raw/todo` to `/raw`, and ensure source links point to the final `/raw` archive path.
+4. Discuss the briefing with the user and wait for approval before archiving the source or editing wiki pages.
+5. After briefing approval, move the source from `/raw/todo` to `/raw` so page source links can point to the stable archive path.
+6. Create the new page with the approved executive summary and key takeaways in concise writing. Link to the archived source.
+7. Add outbound Obsidian links from edited pages to other relevant wiki pages.
+8. Update relevant existing atomic wiki pages when the source strengthens, refines, or contradicts prior synthesis, keeping changes focused and concise.
+9. Ask the user to approve the page changes before finalization.
+10. After final approval, update `/index.md`, append `/log.md`, and ensure source links point to the final `/raw` archive path.
 
 The ingest briefing must include:
 

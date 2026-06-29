@@ -20,6 +20,9 @@ for skill in init-wiki ingest-wiki lint-wiki query-wiki; do
   cmp "$repo_root/skills/shared/obsidian-markdown.md" "$dest_root/$skill/skills/shared/obsidian-markdown.md"
 done
 
+test -f "$dest_root/ingest-wiki/scripts/archive-ingest-source.py"
+cmp "$repo_root/skills/ingest-wiki/scripts/archive-ingest-source.py" "$dest_root/ingest-wiki/scripts/archive-ingest-source.py"
+
 if grep -q 'stale install' "$dest_root/init-wiki/SKILL.md"; then
   echo "stale installed content was not overwritten" >&2
   exit 1

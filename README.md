@@ -23,7 +23,7 @@ Wiki pages should be atomic, concise Markdown notes that work well in Obsidian. 
 ## Skills
 
 - `init-wiki`: initialize an existing Obsidian vault as an LLM wiki while preserving existing root-level notes and folders.
-- `ingest-wiki`: process one source from `/raw/todo` into concise atomic wiki pages, with approval before page edits and again before finalization.
+- `ingest-wiki`: process one source from `/raw/todo` into concise atomic wiki pages, with approval before source archiving and page edits, then again before finalization.
 - `query-wiki`: answer questions from `/index.md` and wiki pages first, consulting `/raw` only when verification or extra source detail is useful.
 - `lint-wiki`: run a wiki health pass for contradictions, stale claims, missing links, data gaps, atomic-page issues, and outdated index entries.
 
