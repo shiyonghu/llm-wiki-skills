@@ -4,6 +4,21 @@
   "private": true,
   "description": "Reusable skills for maintaining an Obsidian vault as an LLM wiki.",
   "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/shiyonghu/llm-wiki-skills.git"
+  },
+  "homepage": "https://github.com/shiyonghu/llm-wiki-skills#readme",
+  "bugs": {
+    "url": "https://github.com/shiyonghu/llm-wiki-skills/issues"
+  },
+  "keywords": [
+    "codex-skills",
+    "obsidian",
+    "llm-wiki",
+    "markdown",
+    "knowledge-management"
+  ],
   "type": "module",
   "scripts": {
     "skills:install-local": "bash scripts/install-local-wiki-skills.sh",

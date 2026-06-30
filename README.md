@@ -32,23 +32,31 @@ Wiki pages should be atomic, concise Markdown notes that work well in Obsidian. 
 
 ## Install
 
+Requirements: Node.js 18 or newer, plus an agent environment that supports the Skills CLI package layout.
+
+Preview the skills available in this repository:
+
+```bash
+npx skills add shiyonghu/llm-wiki-skills --list --full-depth
+```
+
 Install one skill from the public repository:
 
 ```bash
-npx skills add <owner>/llm-wiki-skills --skill init-wiki
-npx skills add <owner>/llm-wiki-skills --skill ingest-wiki
-npx skills add <owner>/llm-wiki-skills --skill query-wiki
-npx skills add <owner>/llm-wiki-skills --skill lint-wiki
-npx skills add <owner>/llm-wiki-skills --skill transcribe-podcast-to-article
+npx skills add shiyonghu/llm-wiki-skills --skill init-wiki
+npx skills add shiyonghu/llm-wiki-skills --skill ingest-wiki
+npx skills add shiyonghu/llm-wiki-skills --skill query-wiki
+npx skills add shiyonghu/llm-wiki-skills --skill lint-wiki
+npx skills add shiyonghu/llm-wiki-skills --skill transcribe-podcast-to-article
 ```
 
 Install all skills:
 
 ```bash
-npx skills add <owner>/llm-wiki-skills --all
+npx skills add shiyonghu/llm-wiki-skills --all
 ```
 
-Replace `<owner>` with the GitHub owner that publishes this repository.
+Restart Codex or your agent app after installation so the newly installed skill descriptions are loaded.
 
 ## Usage
 
@@ -97,6 +105,20 @@ The refresh command treats this repository as the source of truth. It overwrites
 Restart Codex after refreshing local installs, especially when changing frontmatter descriptions or shared reference files.
 
 Public user-facing install examples can still use `npx skills add ...`; local repository development should use the npm scripts above.
+
+### Publishing checklist
+
+Before publishing changes for other people to install:
+
+1. Run `npm run skills:list` and confirm all five skills are discovered.
+2. Run `npm run test:install-local` to verify the bundled references and scripts install cleanly.
+3. Push `main` to `https://github.com/shiyonghu/llm-wiki-skills`.
+4. Verify a clean GitHub install path with a temporary Codex home:
+
+```bash
+tmp="$(mktemp -d)"
+CODEX_HOME="$tmp/codex" npx skills add shiyonghu/llm-wiki-skills --all --full-depth
+```
 
 ## Compatibility
 
