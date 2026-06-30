@@ -12,6 +12,7 @@
     "skills:use:ingest": "skills use . --skill ingest-wiki --full-depth",
     "skills:use:query": "skills use . --skill query-wiki --full-depth",
     "skills:use:lint": "skills use . --skill lint-wiki --full-depth",
+    "skills:use:transcribe": "skills use . --skill transcribe-podcast-to-article --full-depth",
     "test:archive-ingest-source": "bash scripts/test-archive-ingest-source.sh",
     "test:ingest-workflow-order": "bash scripts/test-ingest-workflow-order.sh",
     "test:install-local": "bash scripts/test-install-local-wiki-skills.sh"

@@ -48,6 +48,18 @@
         "Asks for approval before applying fixes unless explicitly told to apply clear fixes.",
         "Does not modify raw source contents."
       ]
+    },
+    {
+      "skill": "transcribe-podcast-to-article",
+      "prompt": "transcribe-podcast-to-article raw/todo/example-podcast.m4a",
+      "expected_output": "Creates an article-style Markdown transcript with headings, punctuation, filler cleanup, no timestamps, and durable ASR cache reuse.",
+      "checks": [
+        "Reads the style guide before the article pass.",
+        "Captures available metadata, chapters, and glossary terms before transcription.",
+        "Creates or reuses durable ASR JSON and metadata instead of re-transcribing on retries.",
+        "Uses official chapters or topic shifts for headings and reviews heading boundaries.",
+        "Keeps final Markdown free of timestamp clutter and background music lyrics."
+      ]
     }
   ]
 }

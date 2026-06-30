@@ -1,0 +1,4 @@
+interface:
+  display_name: "Podcast Article Transcription"
+  short_description: "Article-style podcast transcription"
+  default_prompt: "Use $transcribe-podcast-to-article to transcribe this podcast audio into a polished Markdown article."

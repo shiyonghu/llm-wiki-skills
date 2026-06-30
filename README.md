@@ -4,6 +4,8 @@
 
 LLM Wiki Skills is a small skills package for maintaining an Obsidian vault as an LLM wiki: raw source material stays immutable, while the vault root becomes a concise, linked synthesis layer that an LLM can maintain over time.
 
+It also includes a supplemental podcast transcription skill. That skill is not part of the core wiki maintenance model, but it is useful for turning podcast audio into readable Markdown source material before placing it in `/raw/todo` for ingestion.
+
 The pattern is inspired by Karpathy's LLM wiki idea: the user curates sources and asks questions, and the LLM turns durable ideas into short atomic wiki pages, keeps cross-links current, records activity, and consults raw sources only when source-level detail or verification is needed.
 
 ## Vault Model
@@ -26,6 +28,7 @@ Wiki pages should be atomic, concise Markdown notes that work well in Obsidian. 
 - `ingest-wiki`: process one source from `/raw/todo` into concise atomic wiki pages, with approval before source archiving and page edits, then again before finalization.
 - `query-wiki`: answer questions from `/index.md` and wiki pages first, consulting `/raw` only when verification or extra source detail is useful.
 - `lint-wiki`: run a wiki health pass for contradictions, stale claims, missing links, data gaps, atomic-page issues, and outdated index entries.
+- `transcribe-podcast-to-article`: transcribe podcast, interview, lecture, or long-form audio into article-style Markdown with headings, punctuation, filler cleanup, durable ASR caching, and no timestamp clutter.
 
 ## Install
 
@@ -36,6 +39,7 @@ npx skills add <owner>/llm-wiki-skills --skill init-wiki
 npx skills add <owner>/llm-wiki-skills --skill ingest-wiki
 npx skills add <owner>/llm-wiki-skills --skill query-wiki
 npx skills add <owner>/llm-wiki-skills --skill lint-wiki
+npx skills add <owner>/llm-wiki-skills --skill transcribe-podcast-to-article
 ```
 
 Install all skills:
@@ -55,9 +59,10 @@ init-wiki /path/to/vault
 ingest-wiki raw/todo/example-source.md
 query-wiki What does this vault say about growth mindset?
 lint-wiki
+transcribe-podcast-to-article raw/todo/example-podcast.m4a
 ```
 
-The command-style prefix is not required. Each skill description is written to trigger from natural language too, such as "set up this Obsidian vault as an LLM wiki", "ingest this transcript from raw/todo", "what do my notes say about growth mindset?", or "run a health check on this wiki".
+The command-style prefix is not required. Each skill description is written to trigger from natural language too, such as "set up this Obsidian vault as an LLM wiki", "ingest this transcript from raw/todo", "what do my notes say about growth mindset?", "run a health check on this wiki", or "transcribe this podcast audio into a Markdown article."
 
 ## Development
 
@@ -70,22 +75,24 @@ npm run skills:use:init
 npm run skills:use:ingest
 npm run skills:use:query
 npm run skills:use:lint
+npm run skills:use:transcribe
 npm run test:install-local
 ```
 
-- `npm run skills:install-local`: overwrites the local Codex installs of `init-wiki`, `ingest-wiki`, `query-wiki`, and `lint-wiki` from this checkout. Use it after changing any `SKILL.md` file or any file under `skills/shared`.
-- `npm run skills:list`: lists all skills discovered in this repository. It should include `init-wiki`, `ingest-wiki`, `query-wiki`, and `lint-wiki`.
+- `npm run skills:install-local`: overwrites the local Codex installs of `init-wiki`, `ingest-wiki`, `query-wiki`, `lint-wiki`, and `transcribe-podcast-to-article` from this checkout. Use it after changing any `SKILL.md`, bundled script/reference, or any file under `skills/shared`.
+- `npm run skills:list`: lists all skills discovered in this repository. It should include `init-wiki`, `ingest-wiki`, `query-wiki`, `lint-wiki`, and `transcribe-podcast-to-article`.
 - `npm run skills:use:init`: previews the `init-wiki` skill prompt.
 - `npm run skills:use:ingest`: previews the `ingest-wiki` skill prompt.
 - `npm run skills:use:query`: previews the `query-wiki` skill prompt.
 - `npm run skills:use:lint`: previews the `lint-wiki` skill prompt.
+- `npm run skills:use:transcribe`: previews the `transcribe-podcast-to-article` skill prompt.
 - `npm run test:install-local`: verifies the local installer against a temporary Codex skills directory and confirms stale installed content is overwritten.
 
 ### Codex refresh helper
 
 For local Codex development, this repository also supports a personal helper skill named `refresh-wiki-skills`. After that helper is installed in Codex, ask Codex to "refresh wiki skills" and it will run `npm run skills:install-local` from this checkout.
 
-The refresh command treats this repository as the source of truth. It overwrites only the four wiki skills under `${CODEX_HOME:-~/.codex}/skills`, and copies `skills/shared/wiki-conventions.md` and `skills/shared/obsidian-markdown.md` into each installed skill so bundled reference paths resolve during testing.
+The refresh command treats this repository as the source of truth. It overwrites the four wiki skills plus the supplemental `transcribe-podcast-to-article` skill under `${CODEX_HOME:-~/.codex}/skills`. It copies `skills/shared/wiki-conventions.md` and `skills/shared/obsidian-markdown.md` into each wiki skill so bundled reference paths resolve during testing; the transcribe skill does not receive wiki shared references.
 
 Restart Codex after refreshing local installs, especially when changing frontmatter descriptions or shared reference files.
 

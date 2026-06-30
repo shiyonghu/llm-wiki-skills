@@ -3,14 +3,16 @@ set -euo pipefail
 
 repo_root="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 dest_root="${CODEX_HOME:-$HOME/.codex}/skills"
-skills=(init-wiki ingest-wiki lint-wiki query-wiki)
+skills=(init-wiki ingest-wiki lint-wiki query-wiki transcribe-podcast-to-article)
+wiki_skills=(init-wiki ingest-wiki lint-wiki query-wiki)
 
 usage() {
   cat <<'USAGE'
 Usage: scripts/install-local-wiki-skills.sh [--dest PATH]
 
 Overwrites the local Codex installs for init-wiki, ingest-wiki, lint-wiki,
-and query-wiki from this repository's skills/ directory.
+query-wiki, and transcribe-podcast-to-article from this repository's skills/
+directory.
 USAGE
 }
 
@@ -57,9 +59,14 @@ for skill in "${skills[@]}"; do
   rm -rf "$dest"
   mkdir -p "$dest"
   cp -R "$repo_root/skills/$skill"/. "$dest"/
-  mkdir -p "$dest/skills/shared"
-  cp "$repo_root/skills/shared/wiki-conventions.md" "$dest/skills/shared/"
-  cp "$repo_root/skills/shared/obsidian-markdown.md" "$dest/skills/shared/"
+  for wiki_skill in "${wiki_skills[@]}"; do
+    if [[ "$skill" == "$wiki_skill" ]]; then
+      mkdir -p "$dest/skills/shared"
+      cp "$repo_root/skills/shared/wiki-conventions.md" "$dest/skills/shared/"
+      cp "$repo_root/skills/shared/obsidian-markdown.md" "$dest/skills/shared/"
+      break
+    fi
+  done
   echo "installed $skill -> $dest"
 done
 

@@ -23,6 +23,20 @@ done
 test -f "$dest_root/ingest-wiki/scripts/archive-ingest-source.py"
 cmp "$repo_root/skills/ingest-wiki/scripts/archive-ingest-source.py" "$dest_root/ingest-wiki/scripts/archive-ingest-source.py"
 
+test -f "$dest_root/transcribe-podcast-to-article/SKILL.md"
+test -f "$dest_root/transcribe-podcast-to-article/references/style-guide.md"
+test -f "$dest_root/transcribe-podcast-to-article/scripts/transcribe_podcast_article.py"
+test -f "$dest_root/transcribe-podcast-to-article/agents/openai.yaml"
+test -f "$dest_root/transcribe-podcast-to-article/evals/evals.json"
+cmp "$repo_root/skills/transcribe-podcast-to-article/SKILL.md" "$dest_root/transcribe-podcast-to-article/SKILL.md"
+cmp "$repo_root/skills/transcribe-podcast-to-article/references/style-guide.md" "$dest_root/transcribe-podcast-to-article/references/style-guide.md"
+cmp "$repo_root/skills/transcribe-podcast-to-article/scripts/transcribe_podcast_article.py" "$dest_root/transcribe-podcast-to-article/scripts/transcribe_podcast_article.py"
+
+if [[ -e "$dest_root/transcribe-podcast-to-article/skills/shared/wiki-conventions.md" ]]; then
+  echo "transcribe-podcast-to-article should not receive wiki shared references" >&2
+  exit 1
+fi
+
 if grep -q 'stale install' "$dest_root/init-wiki/SKILL.md"; then
   echo "stale installed content was not overwritten" >&2
   exit 1

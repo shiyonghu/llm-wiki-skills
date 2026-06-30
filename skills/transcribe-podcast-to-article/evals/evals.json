@@ -1,0 +1,29 @@
+{
+  "skill_name": "transcribe-podcast-to-article",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "Use this local Mandarin podcast audio to make a full Markdown transcript. I want it to read like an article, no timestamps, no music lyrics.",
+      "expected_output": "A Markdown transcript in the same folder with headings, paragraphs, punctuation, no timestamp markers, and no intro music lyrics.",
+      "files": []
+    },
+    {
+      "id": 2,
+      "prompt": "Transcribe this podcast into Markdown and make sure headings do not split paragraphs or setup sentences from the sections they introduce.",
+      "expected_output": "A full article-style Markdown transcript whose heading boundaries keep setup sentences with the sections they introduce, with temporary ASR files cleaned up.",
+      "files": []
+    },
+    {
+      "id": 3,
+      "prompt": "Here is an Apple Podcasts episode link. Download the audio and create an article-style transcript in the target folder.",
+      "expected_output": "The agent resolves the RSS feed/audio enclosure, downloads the audio, extracts metadata/chapters/glossary terms, creates or reuses a durable ASR cache, then produces a full article-style transcript.",
+      "files": []
+    },
+    {
+      "id": 4,
+      "prompt": "Retry formatting this podcast transcript from its existing ASR cache. Do not run Whisper again.",
+      "expected_output": "The agent uses the cached ASR JSON/metadata as the source, performs only the rough Markdown and article-style editorial passes, and leaves the durable cache files in place.",
+      "files": []
+    }
+  ]
+}
